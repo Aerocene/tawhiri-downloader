@@ -12,14 +12,14 @@ end = struct
   type t = int [@@deriving sexp, compare]
 
   let of_int i =
-    if i mod 3 = 0 && 0 <= i && i <= 192
+    if i mod 3 = 0 && 0 <= i && i <= 384
     then Ok i
     else Or_error.errorf "Invalid hour %i" i
   ;;
 
   let to_string = sprintf "%i hrs"
   let to_int i = i
-  let axis = List.range ~stride:3 ~start:`inclusive ~stop:`inclusive 0 192
+  let axis = List.range ~stride:3 ~start:`inclusive ~stop:`inclusive 0 384
   let index i = i / 3
   let () = List.iter axis ~f:(fun h -> [%test_eq: int Or_error.t] (of_int h) (Ok h))
   let () = List.iteri axis ~f:(fun idx hour -> assert (index hour = idx))
